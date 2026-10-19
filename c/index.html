@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>AudioProto-Anruf</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <h1>AudioProto</h1>
+  <div class="card" id="card" hidden>
+    <p class="kind" id="kind"></p>
+    <p class="who" id="who"></p>
+    <a class="btn" id="open" href="#">In AudioProto öffnen</a>
+    <p class="muted" id="hint"></p>
+  </div>
+  <p id="none" hidden>Dieser Link enthält keinen Anruf.</p>
+  <p class="muted">Du siehst diese Seite, weil der Link nicht direkt die App geöffnet hat – entweder ist AudioProto nicht installiert, oder Android hat die Verknüpfung noch nicht bestätigt. Der Knopf übergibt den Anruf an die App.</p>
+  <p class="muted">Die Anrufdaten werden nur hier in deinem Browser gelesen; sie stehen hinter dem „#“ und gehen nie an einen Server.</p>
+</main>
+<script>
+// Payload: version|kind, call id (4), digit count, BCD digits, candidates – see CallLink.kt
+(function () {
+  var payload = location.hash.replace(/^#/, "");
+  if (!/^[A-Za-z0-9_-]{8,}$/.test(payload)) { document.getElementById("none").hidden = false; return; }
+  var b;
+  try {
+    var s = atob(payload.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((payload.length + 3) % 4));
+    b = Array.prototype.map.call(s, function (c) { return c.charCodeAt(0); });
+  } catch (e) { document.getElementById("none").hidden = false; return; }
+  var kinds = { 1: "Anruf", 2: "Anruf angenommen", 3: "Neue Adresse", 4: "Anruf abgebrochen" };
+  var kind = kinds[b[0] & 15] || "AudioProto";
+  var n = b[5] || 0, digits = "";
+  for (var i = 0; i < Math.ceil(n / 2); i++) {
+    var v = b[6 + i];
+    digits += (v >> 4);
+    if ((v & 15) !== 15) digits += (v & 15);
+  }
+  digits = digits.slice(0, n);
+  document.getElementById("kind").textContent = kind;
+  document.getElementById("who").textContent = digits ? "von " + digits : "";
+  var android = /Android/i.test(navigator.userAgent);
+  var open = document.getElementById("open");
+  open.href = android
+    ? "intent://c/" + payload + "#Intent;scheme=audioproto;package=org.audioproto.probe;end"
+    : "audioproto://c/" + payload;
+  document.getElementById("hint").textContent = android
+    ? "Falls nichts passiert: AudioProto ist nicht installiert."
+    : "Die App gibt es bisher nur für Android.";
+  document.getElementById("card").hidden = false;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.audioproto.probe",
+      "sha256_cert_fingerprints": [
+        "EC:75:7C:DD:A0:C6:7B:90:73:2C:6F:A9:5F:A6:F3:FD:95:4D:86:15:A2:7F:11:4F:8B:76:9D:F6:9D:58:41:28"
+      ]
+    }
+  }
+]
