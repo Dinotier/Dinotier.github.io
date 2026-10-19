@@ -10,7 +10,24 @@
 <main>
   <h1>AudioProto</h1>
   <p>Telefonieren, wo das Mobilfunknetz schwach ist: Sprache wird so verpackt, dass Funklöcher zu kurzer Verzögerung statt zu verlorenen Wörtern werden.</p>
-  <p>Ein Anruf wird per SMS angemeldet. Die SMS enthält einen Link auf diese Seite; mit installierter App öffnet er direkt die App, und die beiden Telefone verbinden sich ohne Server direkt über IPv6.</p>
+
+  <div class="card">
+    <p class="kind">App</p>
+    <p>Android-App (signiert, ohne Play Store). Beim ersten Öffnen fragt Android einmal, ob Installationen aus dem Browser erlaubt sind.</p>
+    <a class="btn" href="https://github.com/Dinotier/AudioProto/releases/latest/download/audioproto.apk">APK herunterladen</a>
+  </div>
+
+  <div class="card">
+    <p class="kind">Demo</p>
+    <p>In der App unter „Demo“ lädt das Telefon dieses 40-Sekunden-Stück nach und nach von hier und schickt es durch den kompletten AudioProto-Stack. Dazwischen liegt ein simulierter Funkkanal mit Zellrand, Funklöchern oder wechselndem Empfang.</p>
+    <p>So klingt das Original:</p>
+    <audio controls preload="none" src="/demo/demo-40s.wav" style="width:100%"></audio>
+  </div>
+
+  <div class="card">
+    <p class="kind">Anrufen</p>
+    <p>Ein Anruf wird per SMS angemeldet. Die SMS enthält einen Link auf diese Seite; mit installierter App öffnet er direkt die App, und die beiden Telefone verbinden sich ohne Server direkt über IPv6.</p>
+  </div>
   <p class="muted">Diese Seite speichert nichts. Die Anrufdaten stehen im Link hinter dem „#“ und werden vom Browser nie an einen Server geschickt.</p>
 </main>
 </body>
